@@ -1,0 +1,83 @@
+@import '@/style/_theme.scss';
+
+.post__content {
+  p {
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  blockquote {
+    margin: 0;
+    border-left: 8px solid $border-default;
+    padding: 8px 1em;
+
+    p {
+      margin: 0;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+  }
+
+  img {
+    max-width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  pre {
+    code {
+      box-sizing: border-box;
+      padding: 20px;
+      display: block;
+      font-size: 14px;
+      background-color: transparent;
+    }
+  }
+  code,
+  pre {
+    border-radius: 8px;
+    overflow: auto;
+  }
+  pre {
+    line-height: 1.4;
+  }
+
+  code {
+    padding: 0 4px;
+    word-break: break-word;
+    font-family: Monaco, Consolas, 'Courier New', monospace;
+    background-color: $background-default;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $post-title-color;
+  }
+
+  table {
+    font-size: 0;
+    width: 100%;
+    $cell-border: 1px solid $border-default;
+
+    tr {
+      padding: 4px;
+      border-top: $cell-border;
+    }
+
+    td {
+      font-size: 14px;
+
+      text-align: center;
+
+      border-right: $cell-border;
+      margin: 0;
+
+      &:first-child {
+        border-left: $cell-border;
+      }
+    }
+  }
+}
