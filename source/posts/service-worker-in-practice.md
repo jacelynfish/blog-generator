@@ -200,8 +200,7 @@ e.respondWith(
 
 ## Background Sync 后台同步
 
-![Background Sync in action](/images/service-worker-in-practice/background_sync.gif)
-<img src="" alt="" style="margin: 24px auto 40px; width: 80%; min-width: 320px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+![Background Sync in action](/images/service-worker-in-practice/background_sync.gif){.shadowed}
 
 在常见的网页应用上我们经常会遇到这样一个场景，假设我们在某 AO3 刷脆皮鸭：
 

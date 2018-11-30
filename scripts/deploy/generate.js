@@ -33,9 +33,10 @@ async function generate(files) {
     if (toc._list.indexOf(id) < 0) toc._list.push(id)
     toc.posts[id] = meta
   }
-  toc._list = toc._list.sort((a, b) => {
-    return moment(toc.posts[a].date, TIME_FORMAT).isAfter(moment(toc.posts[b].date, TIME_FORMAT))
+  toc._list.sort((a, b) => {
+    return moment(toc.posts[b].date, TIME_FORMAT).valueOf() - moment(toc.posts[a].date, TIME_FORMAT).valueOf()
   })
+
   await fsPromises.writeFile(tocdir, JSON.stringify(toc), 'utf-8')
 
   // const metalsmith = Metalsmith(path.join(src, 'template'))

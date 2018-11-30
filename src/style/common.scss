@@ -1,6 +1,33 @@
 @import "@/style/_theme.scss";
 
 main {
-  width: 80%;
+  width: 65%;
   margin: 0 auto;
+
+  @media (max-width: 960px) {
+    width: 80%;
+  }
+
+  ::selection {
+    background: $text-highlight;
+    color: white;
+  }
+}
+
+#app {
+  a {
+    color: $text-highlight;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+    }
+  }
+}
+
+
+.shadowed {
+  margin-bottom: 48px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
 }

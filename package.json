@@ -33,6 +33,11 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-brands-svg-icons": "^5.5.0",
+    "@fortawesome/free-regular-svg-icons": "^5.5.0",
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
+    "@fortawesome/vue-fontawesome": "^0.1.2",
     "@types/gulp": "^4.0.5",
     "@types/mockjs": "^1.0.2",
     "@vue/cli-plugin-babel": "^3.0.1",
@@ -46,6 +51,7 @@
     "gulp-imagemin": "^5.0.3",
     "inquirer": "^6.2.0",
     "lodash.merge": "^4.6.1",
+    "markdown-it-attrs": "^2.3.2",
     "metalsmith": "^2.3.0",
     "minimist": "^1.2.0",
     "mockjs": "^1.0.1-beta3",

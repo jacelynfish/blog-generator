@@ -1,5 +1,5 @@
 $text-default: #2c3e50;
-$text-highlight: #F0A1A8;
+$text-highlight: rgb(233, 150, 157);
 $post-title-color: #C45A65; // 莓红
 $sidebar-highlight: #F0A1A8; // 合欢红
 $selection-bg: #F0C9CF; // 石蕊红
@@ -13,3 +13,11 @@ $border-default: #e3e3e3;
 
 
 $background-default: #f6f8fa;
+
+@mixin list-margin($margin) {
+  margin-right: $margin;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

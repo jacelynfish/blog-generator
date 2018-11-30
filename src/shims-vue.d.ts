@@ -3,6 +3,7 @@ declare module '*.vue' {
   export default Vue;
 }
 
+declare module '@fortawesome/*';
 // declare module 'vue/types/options' {
 //   import Vue from 'vue';
 // import Router from 'vue-router';

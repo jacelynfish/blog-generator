@@ -8,7 +8,7 @@ export interface RouteConfig {
   component: typeof Vue | (() => Promise<any>);
 }
 
-let config: {
+const config: {
   [propName: string]: RouteConfig;
 } = {
   home: {
@@ -20,7 +20,7 @@ let config: {
   archive: {
     inNav: true,
     path: '/archive',
-    title: '存档',
+    title: '归档',
     component: () =>
       import(/* webpackChunkName: "post" */ '../views/Archive.vue')
   },

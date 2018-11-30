@@ -6,9 +6,10 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Navigation from '@/components/Navigation.vue';
-import CustomFooter from '@/components/Footer.vue';
+import { Component, Vue } from "vue-property-decorator";
+import Navigation from "@/components/Navigation.vue";
+import CustomFooter from "@/components/Footer.vue";
+import ScrollToTop from "@/components/ScrollToTop.vue";
 @Component({
   components: { Navigation, CustomFooter }
 })
@@ -19,18 +20,20 @@ export default App;
 
 
 <style lang="scss">
-@import '@/style/_theme.scss';
-@import '@/style/common.scss';
+@import "@/style/_theme.scss";
+@import "@/style/common.scss";
 
 body {
   padding: 0;
   margin: 0;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $text-default;
+  min-height: 100vh;
+  position: relative;
 }
 ul {
   padding: 0;
@@ -40,7 +43,6 @@ ul {
   }
 }
 a {
-  color: $text-highlight;
   text-decoration: none;
   &:visited,
   &:hover,

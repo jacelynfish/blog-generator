@@ -26,7 +26,8 @@ categories:
 
 进入正文之前，先看一下  完整代码和渲染效果八~
 
-{% codepen jacelynfish JmygbR light js,result 400 %}
+<iframe height='356' scrolling='no' title='Geojson2threeDMap' src='//codepen.io/jacelynfish/embed/JmygbR/?height=356&theme-id=light&default-tab=js,result' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/jacelynfish/pen/JmygbR/'>Geojson2threeDMap</a> by JacelynFish (<a href='https://codepen.io/jacelynfish'>@jacelynfish</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
 
 ## 使用 Geojson 生成 SVG 路径
 
@@ -104,11 +105,11 @@ geojson.features.forEach(feature => {
 
 `drawGeoSVG` 返回的 `shapes` 数组就是之后拉伸立体图形和  采样描绘轮廓的基础啦~
 
-## 轮廓描边和 3D 拉伸深  度
+## 轮廓描边和 3D 拉伸深度
 
 ### 轮廓描边
 
-绘制轮廓的  逻辑其实很直白，就是在 `Shape` 路径中采样并将点集生成 `THREE.Line` 对象即可。生成的轮廓不用马上添加到场景里，而是添加到之后生成的、各自所属的  立体图形  中。
+绘制轮廓的逻辑其实很直白，就是在 `Shape` 路径中采样并将点集生成 `THREE.Line` 对象即可。生成的轮廓不用马上添加到场景里，而是添加到之后生成的、各自所属的立体图形中。
 
 ```javascript
 function drawOutlines(shapes) {

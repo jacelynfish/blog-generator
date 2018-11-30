@@ -1,9 +1,16 @@
 @import '@/style/_theme.scss';
 
 .post__content {
-  p {
+
+  p,
+  li {
     line-height: 1.8;
     font-size: 15px;
+  }
+
+  ul li {
+    list-style: circle;
+    margin-left: 32px;
   }
 
   blockquote {
@@ -21,7 +28,7 @@
   img {
     max-width: 80%;
     display: block;
-    margin: 0 auto;
+    margin: 12px auto;
   }
 
   pre {
@@ -29,15 +36,18 @@
       box-sizing: border-box;
       padding: 20px;
       display: block;
-      font-size: 14px;
+      font-size: 13px;
+      line-height: 1.5;
       background-color: transparent;
     }
   }
+
   code,
   pre {
     border-radius: 8px;
     overflow: auto;
   }
+
   pre {
     line-height: 1.4;
   }
@@ -60,23 +70,21 @@
   table {
     font-size: 0;
     width: 100%;
-    $cell-border: 1px solid $border-default;
 
+    // $cell-border: 1px solid $border-default;
     tr {
       padding: 4px;
-      border-top: $cell-border;
+      // border-top: $cell-border;
     }
 
     td {
       font-size: 14px;
-
       text-align: center;
-
-      border-right: $cell-border;
+      // border-right: $cell-border;
       margin: 0;
 
       &:first-child {
-        border-left: $cell-border;
+        // border-left: $cell-border;
       }
     }
   }

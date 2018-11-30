@@ -2,10 +2,12 @@ const fs = require('fs');
 const fsPromises = fs.promises;
 const path = require('path');
 const meta = require('markdown-it-meta');
+const attrs = require('markdown-it-attrs')
 const moment = require('moment');
 
 const md = require('markdown-it')({
-  highlight: function(str, lang) {
+  html: true,
+  highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return (
@@ -23,7 +25,7 @@ const md = require('markdown-it')({
 });
 
 const hljs = require('highlight.js');
-md.use(meta);
+md.use(meta).use(attrs);
 
 module.exports = async function transform(source, target) {
   let targetFile = await fsPromises.open(target, 'w');
