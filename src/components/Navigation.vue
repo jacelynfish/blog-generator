@@ -28,6 +28,7 @@ export default Navigation;
 #navigation {
   padding: 0 30px;
   line-height: 64px;
+
   a.navigation__item {
     margin: 0 8px;
     padding: 0 2px;

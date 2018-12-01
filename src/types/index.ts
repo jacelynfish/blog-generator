@@ -15,6 +15,7 @@ export interface PostMeta {
   date: string;
   tags?: string[];
   categories?: string[];
+  permalink?: string;
 }
 
 export interface TOC {

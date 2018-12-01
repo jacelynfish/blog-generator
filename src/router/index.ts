@@ -11,6 +11,9 @@ export default function createRouter() {
   return new Router({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes: [...routes, { path: '*', redirect: '/home' }]
+    routes: [...routes, { path: '*', redirect: '/home' }],
+    scrollBehavior(to, from, savedPosition) {
+      return { x: 0, y: 0 };
+    }
   });
 }

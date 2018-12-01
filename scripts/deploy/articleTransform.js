@@ -11,7 +11,7 @@ const md = require('markdown-it')({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return (
-          '<pre class="hljs"><code>' +
+          '<pre class="hljs post-code__block"><code>' +
           hljs.highlight(lang, str, true).value +
           '</code></pre>'
         );

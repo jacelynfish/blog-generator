@@ -1,3 +1,8 @@
+export const BLOG_META = {
+  domain: 'jacelyn.fish',
+  name: '1995'
+};
+
 interface ObjectType<T> {
   [propName: string]: T;
 }
