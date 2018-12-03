@@ -12,15 +12,34 @@ import {
   faWeibo,
   faCodepen
 } from '@fortawesome/free-brands-svg-icons';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faGithub, faWeibo, faZhihu, faCodepen, faHeart);
+library.add(faGithub, faWeibo, faZhihu, faCodepen, faHeart, faChevronUp);
 
 Vue.config.productionTip = false;
 
 export default function createApp() {
+  let scrollCB: EventListener;
   Vue.component('font-awesome-icon', FontAwesomeIcon);
+  Vue.directive('scroll', {
+    inserted: (el, binding) => {
+      let isScrolling = false;
+      scrollCB = (e: Event) => {
+        if (!isScrolling) {
+          isScrolling = true;
+          requestAnimationFrame(() => {
+            isScrolling = false;
+            binding.value(e);
+          });
+        }
+      };
+      window.addEventListener('wheel', scrollCB);
+    },
+    unbind: (el, binding) => {
+      window.removeEventListener('wheel', scrollCB);
+    }
+  });
   let router = createRouter();
   let store = createStore();
 

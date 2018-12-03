@@ -1,5 +1,5 @@
 <template>
-  <div @scroll="handleScroll">
+  <div v-scroll="handleScroll">
     <header class="post__title" :data-bg-url="post.meta.background_url">
       <h1>
         {{post.meta.title}}
@@ -9,7 +9,12 @@
     <main class="post" ref="postContent">
       <article class="post__content" v-html="post.content"></article>
     </main>
-    <scroll-to-top :is-show="isScrollToTop"></scroll-to-top>
+    <scroll-to-top
+      :is-cancelled="isCancelled"
+      :is-show="isScrollToTop"
+      v-on:scroll-start="isScrollStart = true"
+      v-on:scroll-finished="handleScrollFinished"
+    ></scroll-to-top>
   </div>
 </template>
 <script lang="ts">
@@ -35,11 +40,10 @@ class PostContainer extends Vue {
     });
   };
 
+  public isScrollStart: boolean = false;
+  public isCancelled: boolean = false;
   public isScrollToTop: boolean = false;
   @State public post!: PostData;
-  public handleScroll() {
-    console.log("dfsjkldfjslk");
-  }
 
   mounted() {
     let content: NodeSelector = this.$refs.postContent as NodeSelector;
@@ -48,6 +52,29 @@ class PostContainer extends Vue {
       content.querySelectorAll(".post-code__block")
     );
   }
+  public handleScroll(e: Event) {
+    if (this.isScrollStart) {
+      this.isCancelled = true;
+      e.preventDefault();
+      return false;
+    } else {
+      this.getIsScrollTop();
+    }
+  }
+
+  public getIsScrollTop() {
+    let isShow = window.scrollY > window.innerHeight * 1.5;
+    if (isShow != this.isScrollToTop) {
+      this.isScrollToTop = isShow;
+    }
+  }
+
+  public handleScrollFinished() {
+    this.getIsScrollTop();
+    this.isCancelled = false;
+    this.isScrollStart = false;
+  }
+
   public displayDate(date: string) {
     return moment(date).format("LLL");
   }
