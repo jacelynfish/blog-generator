@@ -25,18 +25,36 @@ const md = require('markdown-it')({
 });
 
 const hljs = require('highlight.js');
-md.use(meta).use(attrs);
+md.use(meta).use(attrs)
+
+// function AbstractPlugin(md) {
+//   let defaultRender = md.renderer.rules.html_block
+//   console.log(md.renderer.rules)
+//   md.renderer.rules.html_block = function (tokens, idx, options, env, self) {
+//    console.log(tokens[idx])
+//     // pass token to default renderer.
+//     return defaultRender(tokens, idx, options, env, self);
+//   };
+//   // md.block.ruler.before('code', 'meta', metacb.bind(null, md), { alt: [] })
+// }
+
 
 module.exports = async function transform(source, target) {
   let targetFile = await fsPromises.open(target, 'w');
   let article = await fsPromises.readFile(source, 'utf-8');
   let content = md.render(article);
+
+  let abs = content.split(/<!--\s*(more)\s*-->/)[0]
+  abs = abs.length > 500 ? abs.slice(0, 500)+ '……' : abs
+
   let metaData = {
     ...md.meta,
     date: moment(md.meta.date ? md.meta.date : new Date()).format(
       'YYYY-MM-DD HH:mm:ss'
-    )
+    ),
+    abstract: abs
   };
+
   await fsPromises.writeFile(
     targetFile,
     JSON.stringify({

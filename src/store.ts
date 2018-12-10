@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import Mock from 'mockjs';
+import moment from 'moment';
+
 import { PostData } from './types';
 
 Vue.use(Vuex);
@@ -20,6 +22,18 @@ export default function createStore() {
     },
     mutations: {
       SET_TOC(state, { toc }) {
+        // let date = this.toc.posts[this.toc._list[idx]].date
+        //   return moment(date).format("MMM");
+        for (let i = 0; i < toc._list.length; i++) {
+          let post = toc.posts[toc._list[i]];
+          let date = moment(post.date).format('MMMM');
+
+          post.dateDesc =
+            i == 0 ||
+            date != moment(toc.posts[toc._list[i - 1]].date).format('MMMM')
+              ? date
+              : undefined;
+        }
         state.toc = toc;
       },
       SET_POST(state, { data }) {
