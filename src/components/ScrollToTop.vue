@@ -23,11 +23,11 @@ class Scroll extends Vue {
 
     if (top > 1) {
       requestAnimationFrame(() => {
-        document.documentElement.scrollBy(0, -top / 8);
+        document.documentElement!.scrollBy(0, -top / 8);
         this.isCancelled ? this.$emit("scroll-finished") : this.scrollToTop();
       });
     } else {
-      document.documentElement.scrollTo(0, 0);
+      document.documentElement!.scrollTo(0, 0);
       this.$emit("scroll-finished");
     }
   }

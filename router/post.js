@@ -26,6 +26,7 @@ postRouter.get('posts', '/detail/:title', async (ctx) => {
     title
   } = ctx.params
 
+  console.log('/api/posts', title)
   let res = await fsPromises.readFile(
     path.resolve(__dirname, '../post', `${title}.json`),
     'utf-8')

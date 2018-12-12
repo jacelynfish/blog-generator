@@ -4,7 +4,7 @@
       <h3>
         <router-link :to="{name: 'post', params: {title: post}}">{{toc.posts[post].title}}</router-link>
       </h3>
-      <p class="toc__post-abstract" v-html="toc.posts[post].abstract"></p>
+      <!-- <p class="toc__post-abstract" v-html="toc.posts[post].abstract"></p> -->
       <span class="toc__post-date">{{toc.posts[post].date}}</span>
       <ul class="toc__post-tag">
         <li v-for="tag in toc.posts[post].tags" :key="tag">{{tag}}</li>

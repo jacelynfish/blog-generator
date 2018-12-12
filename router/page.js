@@ -28,7 +28,7 @@ function renderToString(context) {
 
 let pageRouter = new Router()
 pageRouter.use(async (ctx, next) => {
-  if (ctx.accepts()[0] === 'text/html') {
+  if (ctx.accepts()[0] === 'text/html' || ctx.accepts()[0] == '*/*') {
     await next();
   } else {
     ctx.throw(404, 'File does not exists!')
@@ -41,6 +41,7 @@ pageRouter.get('/', async (ctx) => {
     origin: ctx.origin
   };
 
+  console.log('in router', ctx.url)
   // 将 context 数据渲染为 HTML
   const html = await renderToString(context);
   ctx.body = html;

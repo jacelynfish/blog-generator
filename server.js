@@ -6,6 +6,17 @@ const app = new Koa();
 const router = require('./router')
 const json = require('koa-json')
 
+const {
+  JSDOM
+} = require('jsdom')
+const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+  url: 'http://localhost'
+})
+
+global.window = dom.window
+global.document = window.document
+global.navigator = window.navigator
+
 const resolve = file => path.resolve(__dirname, file);
 
 app.use(json({

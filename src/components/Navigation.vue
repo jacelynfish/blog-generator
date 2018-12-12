@@ -11,11 +11,11 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import config, { RouteConfig } from "../router/config";
-
+import createConfig, { _RouteConfig } from "../router/config";
+let config = createConfig();
 @Component
 class Navigation extends Vue {
-  public navList: RouteConfig[] = Object.keys(config).map(k => ({
+  public navList: _RouteConfig[] = Object.keys(config).map(k => ({
     ...config[k],
     name: k
   }));

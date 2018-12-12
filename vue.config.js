@@ -1,11 +1,26 @@
 const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
 const merge = require('lodash.merge')
 const TARGET_NODE = process.env.WEBPACK_TARGET == 'node';
 const target = TARGET_NODE ? 'server' : 'client'
 
+
+const pwaConfig = process.env.NODE_ENV == 'production' ? {
+  name: 'Jacelynfish 1995',
+  workboxPluginMode: 'InjectManifest',
+  workboxOptions: {
+    swSrc: 'src/sw.js',
+    importWorkboxFrom: 'local',
+    importsDirectory: 'wb-assets'
+  }
+} : {}
+
 module.exports = {
+  pwa: {
+    ...pwaConfig
+  },
   configureWebpack: () => ({
     entry: `./src/entry-${target}.js`,
     devtool: 'source-map',

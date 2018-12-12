@@ -6,15 +6,16 @@
     "deploy": "node ./scripts/deploy/index.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:client": "vue-cli-service build",
+    "build:client": "cross-env WEBPACK_TARGET=client vue-cli-service build",
     "build:server": "cross-env WEBPACK_TARGET=node vue-cli-service build",
-    "build:win": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && mv bundle dist/vue-ssr-server-bundle.json && rm dist/index.html",
+    "build:win": "npm run build:server && mv dist/vue-ssr-server-bundle.json bundle && npm run build:client && rm dist/index.html  && mv bundle dist/vue-ssr-server-bundle.json ",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "highlight.js": "^9.13.1",
+    "jsdom": "^13.0.0",
     "koa": "^2.6.2",
     "koa-json": "^2.0.2",
     "koa-router": "^7.4.0",
