@@ -34,10 +34,10 @@ export default function createApp() {
           });
         }
       };
-      window.addEventListener('wheel', scrollCB);
+      window && window.addEventListener('wheel', scrollCB);
     },
     unbind: (el, binding) => {
-      window.removeEventListener('wheel', scrollCB);
+      window && window.removeEventListener('wheel', scrollCB);
     }
   });
   let router = createRouter();

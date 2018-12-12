@@ -18,14 +18,10 @@ const createConfig: () => Config = () => {
       inNav: true,
       path: '/archive',
       title: '归档'
-      // component: () =>
-      //   import(/* webpackChunkName: "post" */ '../views/Archive.vue')
     },
     post: {
       path: '/post/:title',
       title: '文章'
-      // component: () =>
-      //   import(/* webpackChunkName: "post" */ '../views/Post.vue')
     },
     home: {
       path: '/home',
