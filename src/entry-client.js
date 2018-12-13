@@ -54,8 +54,7 @@ router.onReady(() => {
           return Component.asyncData({
             store,
             route: to,
-            baseURL: process.env.NODE_ENV == 'development' ?
-              'http://localhost:3007' : location.origin
+            baseURL: location.origin
           })
       })).then(() => next())
       .catch((err) => next({

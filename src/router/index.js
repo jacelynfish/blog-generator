@@ -4,18 +4,10 @@ import createConfig, {
   Config
 } from './config';
 
-import Home from '../views/Home.vue';
 import Offline from '../views/Offline.vue'
 
-const Archive = () => {
-  let a = import('../views/Archive.vue').then(m => {
-    console.log(m);
-    return m;
-  });
-
-  console.log(a);
-  return a;
-};
+const Home = () => import('../views/Home.vue')
+const Archive = () => import('../views/Archive.vue')
 const Post = () => import('../views/Post.vue');
 Vue.use(Router);
 

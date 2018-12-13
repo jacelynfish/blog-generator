@@ -6,22 +6,6 @@ const app = new Koa();
 const router = require('./router');
 const json = require('koa-json');
 
-const { JSDOM } = require('jsdom');
-const dom = new JSDOM('<!doctype html><html><body></body></html>', {
-  url: 'http://localhost'
-});
-
-let funcWrapper = func => (...args) => func.call(dom.window.document, ...args);
-
-global.document = {
-  getElementsByTagName: funcWrapper(dom.window.document.getElementsByTagName),
-  createElement: funcWrapper(dom.window.document.createElement),
-  documentElement: dom.window.document.documentElement,
-  createRange: funcWrapper(dom.window.document.createRange),
-  execCommand: funcWrapper(dom.window.document.execCommand),
-  queryCommandSupported: funcWrapper(dom.window.document.queryCommandSupported)
-};
-
 const resolve = file => path.resolve(__dirname, file);
 
 app.use(
@@ -41,6 +25,6 @@ app.use(
 app.use(router.routes()).use(router.allowedMethods());
 
 const port = 3007;
-app.listen(port, function() {
+app.listen(port, function () {
   console.log(`server started at localhost:${port}`);
 });

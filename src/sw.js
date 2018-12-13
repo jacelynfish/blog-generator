@@ -1,3 +1,7 @@
+workbox.setConfig({
+  debug: false
+});
+
 workbox.core.setCacheNameDetails({
   prefix: 'jacelynfish-blog',
   suffix: 'v1.0.1',

@@ -7,8 +7,7 @@ const TARGET_NODE = process.env.WEBPACK_TARGET == 'node';
 const target = TARGET_NODE ? 'server' : 'client';
 
 const pwaConfig =
-  process.env.NODE_ENV == 'production' ?
-  {
+  process.env.NODE_ENV == 'production' ? {
     name: 'Jacelynfish 1995',
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
@@ -16,16 +15,26 @@ const pwaConfig =
       importWorkboxFrom: 'local',
       importsDirectory: 'wb-assets'
     }
-  } :
-  {};
+  } : {};
 
 module.exports = {
   pwa: {
     ...pwaConfig
   },
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://localhost:3007',
+        changeOrigin: true
+      }
+    }
+  },
+  css: {
+    extract: !(TARGET_NODE || process.env.NODE_ENV != 'production')
+  },
   configureWebpack: () => ({
     entry: `./src/entry-${target}.js`,
-    devtool: 'source-map',
+    devtool: TARGET_NODE ? 'source-map' : 'cheap-module-source-map',
     target: TARGET_NODE ? 'node' : 'web',
     node: TARGET_NODE ? undefined : false,
     output: {
@@ -34,8 +43,7 @@ module.exports = {
     externals: TARGET_NODE ?
       nodeExternals({
         whitelist: [/\.css$/]
-      }) :
-      undefined,
+      }) : undefined,
     optimization: {
       splitChunks: undefined
     },

@@ -10,8 +10,6 @@ export default context => {
 
     router.push({
       path: context.url
-    }, undefined, abort => {
-      console.log(context.url, 'abort');
     });
     let rej = (code, i) => () => {
       return reject({
@@ -19,15 +17,12 @@ export default context => {
       });
     };
 
-    // console.log(router.history);
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents();
       if (!matchedComponents.length) return rej(404, 1)();
 
       return Promise.all(
           matchedComponents.map(Component => {
-            console.log(context.url, router.currentRoute.name);
-
             if (Component.asyncData) {
               return Component.asyncData({
                 store,
