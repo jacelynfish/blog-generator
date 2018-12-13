@@ -7,17 +7,17 @@ const TARGET_NODE = process.env.WEBPACK_TARGET == 'node';
 const target = TARGET_NODE ? 'server' : 'client';
 
 const pwaConfig =
-  process.env.NODE_ENV == 'production'
-    ? {
-        name: 'Jacelynfish 1995',
-        workboxPluginMode: 'InjectManifest',
-        workboxOptions: {
-          swSrc: 'src/sw.js',
-          importWorkboxFrom: 'local',
-          importsDirectory: 'wb-assets'
-        }
-      }
-    : {};
+  process.env.NODE_ENV == 'production' ?
+  {
+    name: 'Jacelynfish 1995',
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: 'src/sw.js',
+      importWorkboxFrom: 'local',
+      importsDirectory: 'wb-assets'
+    }
+  } :
+  {};
 
 module.exports = {
   pwa: {
@@ -31,11 +31,11 @@ module.exports = {
     output: {
       libraryTarget: TARGET_NODE ? 'commonjs2' : undefined
     },
-    externals: TARGET_NODE
-      ? nodeExternals({
-          whitelist: [/\.css$/]
-        })
-      : undefined,
+    externals: TARGET_NODE ?
+      nodeExternals({
+        whitelist: [/\.css$/]
+      }) :
+      undefined,
     optimization: {
       splitChunks: undefined
     },
@@ -51,15 +51,5 @@ module.exports = {
           optimizeSSR: false
         });
       });
-
-    if (TARGET_NODE) {
-      console.log(config.module.rules[1]);
-      // config.module
-      //   .rule('servercss')
-      //   .test(/\.(sa|sc|c)ss$/)
-      //   .use('css-loader/locals')
-      //   .loader('css-loader/locals')
-      //   .end();
-    }
   }
 };

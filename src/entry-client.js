@@ -19,6 +19,20 @@ if ('serviceWorker' in navigator) {
         console.warn(err)
       })
   })
+  navigator.serviceWorker.addEventListener('message', e => {
+    let {
+      type
+    } = e.data
+    if (type == 'POST_FORCE_RELOAD') {
+      let current = router.currentRoute
+      let params = current.params
+      if (current.name == 'offline' &&
+        e.data.paths.indexOf(params.title) != -1)
+        router.push({
+          path: params.failUrl
+        })
+    }
+  })
 }
 
 router.onReady(() => {
@@ -36,14 +50,21 @@ router.onReady(() => {
     }
 
     Promise.all(activated.map(Component => {
-      if (Component.asyncData)
-        return Component.asyncData({
-          store,
-          route: to,
-          baseURL: process.env.NODE_ENV == 'development' ?
-            'http://localhost:3007' : location.origin
-        })
-    })).then(() => next()).catch(next)
+        if (Component.asyncData)
+          return Component.asyncData({
+            store,
+            route: to,
+            baseURL: process.env.NODE_ENV == 'development' ?
+              'http://localhost:3007' : location.origin
+          })
+      })).then(() => next())
+      .catch((err) => next({
+        name: 'offline',
+        params: {
+          ...to.params,
+          failUrl: to.path,
+        }
+      }))
   })
   app.$mount('#app', true)
 })

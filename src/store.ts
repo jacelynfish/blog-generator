@@ -55,11 +55,7 @@ export default function createStore() {
       GET_POST({ commit }, { title, baseURL }) {
         return axios(`/detail/${title}`, {
           baseURL: `${baseURL}/api/posts/`
-        })
-          .then(res => commit('SET_POST', res))
-          .catch(err => {
-            console.log('in get post', baseURL);
-          });
+        }).then(res => commit('SET_POST', res));
       }
     }
   });

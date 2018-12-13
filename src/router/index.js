@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import createConfig, { Config } from './config';
+import createConfig, {
+  Config
+} from './config';
 
 import Home from '../views/Home.vue';
+import Offline from '../views/Offline.vue'
 
 const Archive = () => {
   let a = import('../views/Archive.vue').then(m => {
@@ -25,8 +28,7 @@ export default function createRouter() {
     mode: 'history',
     // base: process.env.BASE_URL,
     fallback: false,
-    routes: [
-      {
+    routes: [{
         path: '/archive',
         name: 'archive',
         component: Archive
@@ -37,14 +39,26 @@ export default function createRouter() {
         component: Post
       },
       {
+        path: '/offline',
+        name: 'offline',
+        component: Offline,
+        props: true
+      },
+      {
         path: '/home',
         name: 'home',
         component: Home
       },
-      { path: '*', redirect: '/home' }
+      {
+        path: '*',
+        redirect: '/home'
+      }
     ],
     scrollBehavior(to, from, savedPosition) {
-      return { x: 0, y: 0 };
+      return {
+        x: 0,
+        y: 0
+      };
     }
   });
 }

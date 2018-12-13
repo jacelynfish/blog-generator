@@ -2,14 +2,21 @@ import createApp from './main.ts';
 
 export default context => {
   return new Promise((resolve, reject) => {
-    let { app, router, store } = createApp();
+    let {
+      app,
+      router,
+      store
+    } = createApp();
 
-    router.push({ path: context.url }, undefined, abort => {
+    router.push({
+      path: context.url
+    }, undefined, abort => {
       console.log(context.url, 'abort');
     });
     let rej = (code, i) => () => {
-      console.log(i);
-      return reject({ code });
+      return reject({
+        code
+      });
     };
 
     // console.log(router.history);
@@ -18,18 +25,18 @@ export default context => {
       if (!matchedComponents.length) return rej(404, 1)();
 
       return Promise.all(
-        matchedComponents.map(Component => {
-          console.log(context.url, router.currentRoute.name);
+          matchedComponents.map(Component => {
+            console.log(context.url, router.currentRoute.name);
 
-          if (Component.asyncData) {
-            return Component.asyncData({
-              store,
-              route: router.currentRoute,
-              baseURL: context.origin
-            });
-          }
-        })
-      )
+            if (Component.asyncData) {
+              return Component.asyncData({
+                store,
+                route: router.currentRoute,
+                baseURL: context.origin
+              });
+            }
+          })
+        )
         .then(() => {
           context.state = store.state;
           resolve(app);

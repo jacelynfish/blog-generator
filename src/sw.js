@@ -1,23 +1,18 @@
 workbox.core.setCacheNameDetails({
   prefix: 'jacelynfish-blog',
-  suffix: 'v1.0.0',
+  suffix: 'v1.0.1',
 });
 
 workbox.skipWaiting();
 workbox.clientsClaim();
 
-workbox.precaching.precacheAndRoute(
-  self.__precacheManifest || [], {
-    ignoreUrlParametersMatching: [/.*/],
-    cleanUrls: false,
-  })
+const precacheController = new workbox.precaching.PrecacheController()
+precacheController.addToCacheList(self.__precacheManifest || [])
 
-workbox.routing.registerRoute(
-  /\/api\/posts$/,
-  workbox.strategies.staleWhileRevalidate()
-)
-
-workbox.routing.registerRoute(
+const router = new workbox.routing.Router()
+router.registerRoute(new workbox.routing.RegExpRoute(/\/api\/posts$/,
+  workbox.strategies.staleWhileRevalidate()))
+router.registerRoute(new workbox.routing.RegExpRoute(
   /\/api\/posts\/detail/,
   workbox.strategies.cacheFirst({
     cacheName: 'post-cache',
@@ -26,31 +21,41 @@ workbox.routing.registerRoute(
         maxAgeSeconds: 24 * 60 * 60,
       }),
       new workbox.backgroundSync.Plugin('postDetail', {
+        callbacks: {
+          queueDidReplay: async (requests) => {
+            let clients = await self.clients.matchAll()
+            clients.forEach(client => {
+              let clientUrl = new URL(client.url);
+              client.postMessage({
+                type: 'POST_FORCE_RELOAD',
+                paths: requests.map(req => {
+                  let _t = req.request.url.split('/')
+                  return _t[_t.length - 1]
+                })
+              })
+            })
+          }
+        },
         maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
       })
     ]
   })
-)
-
-workbox.routing.registerRoute(
+))
+router.registerRoute(new workbox.routing.RegExpRoute(
   /^https:\/\/(?:.*)\.jacelyn\.fish/,
   workbox.strategies.networkFirst({
     fetchOptions: {
       credentials: 'include',
     },
   })
-)
-
-// Cache the Google Fonts stylesheets with a stale while revalidate strategy.
-workbox.routing.registerRoute(
+))
+router.registerRoute(new workbox.routing.RegExpRoute(
   /^https:\/\/fonts\.googleapis\.com/,
   workbox.strategies.staleWhileRevalidate({
     cacheName: 'font-cache',
   }),
-);
-
-// Cache the Google Fonts webfont files with a cache first strategy for 1 year.
-workbox.routing.registerRoute(
+))
+router.registerRoute(new workbox.routing.RegExpRoute(
   /^https:\/\/fonts\.gstatic\.com/,
   workbox.strategies.cacheFirst({
     cacheName: 'font-cache',
@@ -63,14 +68,12 @@ workbox.routing.registerRoute(
       }),
     ],
   }),
-);
-
-workbox.routing.registerRoute(
+))
+router.registerRoute(new workbox.routing.RegExpRoute(
   /.*(?:codepen\.io|disqus\.com)/,
   workbox.strategies.staleWhileRevalidate(),
-);
-
-workbox.routing.registerRoute(
+))
+router.registerRoute(new workbox.routing.RegExpRoute(
   /.*\.(?:png|jpg|jpeg|svg|gif|css)/g,
   workbox.strategies.cacheFirst({
     cacheName: 'resources-cache',
@@ -80,4 +83,22 @@ workbox.routing.registerRoute(
       }),
     ]
   })
-);
+))
+
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(precacheController.install())
+})
+
+self.addEventListener('activate', e => {
+  e.waitUntil(precacheController.activate())
+})
+
+self.addEventListener('fetch', e => {
+  let resPromise = router.handleRequest(e)
+  if (resPromise) {
+    e.respondWith(resPromise.catch(async err => {
+      console.log(err)
+    }))
+  }
+})
