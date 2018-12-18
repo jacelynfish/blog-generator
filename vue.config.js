@@ -4,10 +4,11 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const merge = require('lodash.merge');
 const TARGET_NODE = process.env.WEBPACK_TARGET == 'node';
+const IS_PROD = process.env.NODE_ENV == 'production';
 const target = TARGET_NODE ? 'server' : 'client';
 
 const pwaConfig =
-  process.env.NODE_ENV == 'production' ? {
+  IS_PROD ? {
     name: 'Jacelynfish 1995',
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
@@ -30,11 +31,11 @@ module.exports = {
     }
   },
   css: {
-    extract: !(TARGET_NODE || process.env.NODE_ENV != 'production')
+    extract: !TARGET_NODE && IS_PROD
   },
   configureWebpack: () => ({
     entry: `./src/entry-${target}.js`,
-    devtool: TARGET_NODE ? 'source-map' : 'cheap-module-source-map',
+    devtool:  IS_PROD ? false : 'source-map',
     target: TARGET_NODE ? 'node' : 'web',
     node: TARGET_NODE ? undefined : false,
     output: {

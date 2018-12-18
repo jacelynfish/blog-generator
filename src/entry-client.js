@@ -10,10 +10,37 @@ if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
 
+window.urlBase64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+async function subscribePush(reg) {
+  let {uid} = store.getters.pushInfo
+
+  let subscription = await reg.pushManager.getSubscription()
+  if(!subscription){
+    subscription = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: window.urlBase64ToUint8Array(window.PUBKEY)
+    })
+  }
+  store.dispatch('SAVE_WEBPUSH_SUB', { subscription })
+}
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function (e) {
     navigator.serviceWorker.register('/sw.js').then(reg => {
         console.log('Successfully register service worker!')
+        return subscribePush(reg)
       })
       .catch(err => {
         console.warn(err)

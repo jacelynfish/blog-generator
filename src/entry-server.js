@@ -34,6 +34,7 @@ export default context => {
         )
         .then(() => {
           context.state = store.state;
+          context.styles = ''
           resolve(app);
         })
         .catch(rej(500, 2));

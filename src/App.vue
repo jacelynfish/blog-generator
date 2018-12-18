@@ -10,6 +10,8 @@ import { Component, Vue } from "vue-property-decorator";
 import Navigation from "@/components/Navigation.vue";
 import CustomFooter from "@/components/Footer.vue";
 import ScrollToTop from "@/components/ScrollToTop.vue";
+import { AsyncData } from "./types/index";
+
 @Component({
   components: { Navigation, CustomFooter }
 })

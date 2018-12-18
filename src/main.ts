@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import createRouter from './router/index';
 import createStore from './store';
-import './registerServiceWorker';
+// import './registerServ/iceWorker';
 import { sync } from 'vuex-router-sync';
 
 import { library } from '@fortawesome/fontawesome-svg-core';

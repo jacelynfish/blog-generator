@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const fs = require('fs');
 const path = require('path');
+const pushConfig = require('../webpush.config.json')
 
 const resolve = file => path.resolve(__dirname, file);
 // 开放dist目录
@@ -14,7 +15,8 @@ const renderer = createBundleRenderer(bundle, {
   runInNewContext: false,
   template: fs.readFileSync(resolve('../src/index.template.html'), 'utf-8'),
   clientManifest: clientManifest,
-  basedir: resolve('../dist')
+  basedir: resolve('../dist'),
+  inject: false
 });
 
 function renderToString(context) {
@@ -37,7 +39,8 @@ pageRouter.get('/', async ctx => {
   const context = {
     title: 'ssr test',
     url: ctx.url,
-    origin: ctx.origin
+    origin: ctx.origin,
+    pubKey: pushConfig.publicKey
   };
 
   console.log('in router', ctx.url);

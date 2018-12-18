@@ -11,6 +11,9 @@ Vue.use(Vuex);
 export default function createStore() {
   return new Vuex.Store({
     state: {
+     pushInfo: {
+      uid: '',
+     },
       toc: {
         _list: [],
         posts: {}
@@ -18,6 +21,11 @@ export default function createStore() {
       post: {
         meta: {},
         content: ''
+      }
+    },
+    getters: {
+      pushInfo(state) {
+        return state.pushInfo
       }
     },
     mutations: {
@@ -38,6 +46,9 @@ export default function createStore() {
       },
       SET_POST(state, { data }) {
         state.post = data;
+      },
+      SET_PUSH_INFO(state, {info}) {
+        state.pushInfo = info
       }
     },
     actions: {
@@ -56,6 +67,21 @@ export default function createStore() {
         return axios(`/detail/${title}`, {
           baseURL: `${baseURL}/api/posts/`
         }).then(res => commit('SET_POST', res));
+      },
+      SAVE_WEBPUSH_SUB({ state, commit },{ subscription }) {
+        let uid = state.pushInfo.uid.length? state.pushInfo.uid : `${new Date().valueOf()}`
+        let data = {
+          subscription, 
+          uid
+        }
+        commit('SET_PUSH_INFO', {
+          info: { uid }
+        })
+        return axios.post('/subscription', data, {
+          baseURL: `/push/`
+        }).then(res => {
+          console.log(res)
+        })
       }
     }
   });

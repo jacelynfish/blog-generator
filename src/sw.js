@@ -106,3 +106,10 @@ self.addEventListener('fetch', e => {
     }))
   }
 })
+
+self.addEventListener('push', e => {
+  const {title, body, tag} =  e.data ? e.data.json(): {}
+  self.registration.showNotification(title, {
+    body, tag
+  })
+})
