@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import createConfig, {
   Config
 } from './config';
+import { BLOG_META } from '../utils/constants'
 
 import Offline from '../views/Offline.vue'
 
@@ -23,23 +24,32 @@ export default function createRouter() {
     routes: [{
         path: '/archive',
         name: 'archive',
-        component: Archive
+        component: Archive,
+        meta: {
+          title: `归档 | ${BLOG_META.name}`
+        }
       },
       {
         path: '/post/:title',
         name: 'post',
-        component: Post
+        component: Post,
+        meta: {
+          title: (to) => `${to.params.name ? to.params.name : ''} | ${BLOG_META.name}`
+        }
       },
       {
         path: '/offline',
         name: 'offline',
         component: Offline,
-        props: true
+        props: true,
+        meta: {
+          title: `失联啦~ | ${BLOG_META.name}`
+        }
       },
       {
         path: '/home',
         name: 'home',
-        component: Home
+        component: Home,
       },
       {
         path: '*',

@@ -4,6 +4,9 @@ const path = require('path');
 const meta = require('markdown-it-meta');
 const attrs = require('markdown-it-attrs')
 const moment = require('moment');
+const Post = require('../../db/Post')
+
+const postDB = new Post()
 
 const md = require('markdown-it')({
   html: true,
@@ -39,8 +42,7 @@ md.use(meta).use(attrs)
 // }
 
 
-module.exports = async function transform(source, target) {
-  let targetFile = await fsPromises.open(target, 'w');
+module.exports = async function transform(id, source, target) {
   let article = await fsPromises.readFile(source, 'utf-8');
   let content = md.render(article);
 
@@ -49,19 +51,11 @@ module.exports = async function transform(source, target) {
 
   let metaData = {
     ...md.meta,
-    date: moment(md.meta.date ? md.meta.date : new Date()).format(
-      'YYYY-MM-DD HH:mm:ss'
-    ),
+    date: moment(md.meta.date ? md.meta.date : new Date()).valueOf(),
     abstract: abs
   };
 
-  await fsPromises.writeFile(
-    targetFile,
-    JSON.stringify({
-      meta: metaData,
-      content
-    }),
-    'utf-8'
-  );
+  await postDB.savePost({id, meta: metaData, content})
+
   return metaData;
 };

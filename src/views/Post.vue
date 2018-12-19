@@ -30,7 +30,7 @@ import { BLOG_META } from "@/utils/constants";
 @Component({
   components: {
     ScrollToTop
-  }
+  },
 })
 class PostContainer extends Vue {
   public static asyncData: AsyncData = ({ store, baseURL, route }) => {
@@ -46,6 +46,9 @@ class PostContainer extends Vue {
   @State public post!: PostData;
 
   mounted() {
+    let title = `${this.post.meta.title} | ${BLOG_META.name}`
+    if(document.title != title) document.title = title
+
     let content: NodeSelector = this.$refs.postContent as NodeSelector;
     createCodeCopy(
       { ...this.post.meta, permalink: `${location.href}` },

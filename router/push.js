@@ -4,7 +4,9 @@ const fsPromises = fs.promises
 const path = require('path')
 const pushConfig = require('../webpush.config.json')
 const webpush = require('web-push')
+const Subscription = require('../db/Subscription')
 let pushRouter = new Router()
+let subDB = new Subscription()
 
 let SUBSCRIPTION = {};
 
@@ -32,21 +34,32 @@ pushRouter.get('/pubkey', async ctx => {
 
 pushRouter.post('/subscription', async ctx => {
   const { uid, subscription } = ctx.request.body
-  // console.log(uid, subscription)
-  SUBSCRIPTION = subscription
+  await subDB.saveSubscription({uid, subscription})
   ctx.body = 'Successfully subscribe to push services!'
 })
 
 pushRouter.post('/push_mes', async ctx => {
   const { uid, payload } = ctx.request.body
-  console.log(payload, SUBSCRIPTION)
-  let res = await webpush.sendNotification(SUBSCRIPTION, JSON.stringify({
-    title: 'Default Title',
-    body: 'You have an unread message.',
-    tag: uid ? uid: 0,
-    ...payload
-  }))
-  ctx.body = 'Successfully push to clients'
+  if(typeof uid == 'undefined') {
+    ctx.status = 404
+    ctx.body = "Please specify a uid"
+  }else {
+    let subscriptions = await subDB.getSubscription(uid).catch(err => {
+      console.log(err)
+    })
+    for(let item of subscriptions) {
+      await webpush.sendNotification(item.subscription, JSON.stringify({
+        title: 'Default Title',
+        body: 'You have an unread message.',
+        tag: uid ? uid: 0,
+        ...payload
+      })).catch(err => {
+        console.log(`WebPush Error: ${err.statusCode}`)
+      })
+    }
+    ctx.body = 'Successfully push to clients'
+  }
+ 
 })
 
 

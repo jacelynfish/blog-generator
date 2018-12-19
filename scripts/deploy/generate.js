@@ -17,28 +17,21 @@ async function generate(files) {
 
   // src, dest, id
   // generate table of content data
-  let tocdir = path.resolve(process.cwd(), './post/_toc.json')
-  let toc = await fsPromises.readFile(tocdir, 'utf-8')
-    .then(res => res.length ? JSON.parse(res) : {
-      _list: [],
-      posts: {}
-    })
-
+ 
+  let records = []
   for (let file of files) {
     let src = path.resolve(process.cwd(), 'source/posts', file)
     let id = file.split('.')[0]
     let dest = path.resolve(process.cwd(), 'post', `${id}.json`);
-
-    let meta = await transform(src, dest)
-    if (toc._list.indexOf(id) < 0) toc._list.push(id)
-    toc.posts[id] = meta
+    records.push({
+      src, id, dest
+    })
   }
-  toc._list.sort((a, b) => {
-    return moment(toc.posts[b].date, TIME_FORMAT).valueOf() - moment(toc.posts[a].date, TIME_FORMAT).valueOf()
+  await Promise.all(records.map(({id, src, dest}) => transform(id, src, dest)
+  )).catch(err => {
+    console.log('generate',err)
   })
-
-  await fsPromises.writeFile(tocdir, JSON.stringify(toc), 'utf-8')
-
+  
   // const metalsmith = Metalsmith(path.join(src, 'template'))
   // const metadata = require(path.join(src, 'meta.json'))
   // const dirs = src.split(path.sep)

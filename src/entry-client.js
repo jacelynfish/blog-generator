@@ -1,4 +1,5 @@
 import createApp from './main.ts'
+import { BLOG_META } from './utils/constants'
 
 const {
   app,
@@ -63,6 +64,17 @@ if ('serviceWorker' in navigator) {
 }
 
 router.onReady(() => {
+  router.beforeEach((to, from, next) => {
+    let title;
+    if(to.meta.title) {
+      title = typeof to.meta.title == 'function' ? 
+        to.meta.title(to) : to.meta.title
+    }else{
+      title = BLOG_META.name
+    }
+    document.title = title
+    next()
+  })
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)

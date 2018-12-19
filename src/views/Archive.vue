@@ -7,7 +7,7 @@
         :class="[toc.posts[tag].dateDesc ? 'archive__list-item-has-desc' : '']"
         :data-date-desc="toc.posts[tag].dateDesc"
       >
-        <router-link :to="{name: 'post', params: {title: tag}}">{{toc.posts[tag].title}}</router-link>
+        <router-link :to="{name: 'post', params: {title: tag, name: toc.posts[tag].title }}">{{toc.posts[tag].title}}</router-link>
       </li>
     </ul>
   </main>
