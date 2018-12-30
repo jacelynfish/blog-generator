@@ -10,6 +10,8 @@ import Offline from '../views/Offline.vue'
 const Home = () => import('../views/Home.vue')
 const Archive = () => import('../views/Archive.vue')
 const Post = () => import('../views/Post.vue');
+const About = () => import('../views/About.vue');
+
 Vue.use(Router);
 
 if (process.env.WEBPACK_TARGET == 'node') {
@@ -35,6 +37,14 @@ export default function createRouter() {
         component: Post,
         meta: {
           title: (to) => `${to.params.name ? to.params.name : ''} | ${BLOG_META.name}`
+        }
+      },
+      {
+        path: '/about',
+        name: 'about',
+        component: About,
+        meta: {
+          title: `关于 | ${BLOG_META.name}`
         }
       },
       {

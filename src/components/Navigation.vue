@@ -1,5 +1,10 @@
 <template>
-  <nav id="navigation">
+  <nav id="navigation" :class="$route.name == 'post' ? 'navigation__post' : ''">
+     <router-link
+      tag="h1"
+      :to="{name: 'home'}"
+      v-if="$route.name != 'home'"
+    >{{title}}</router-link>
     <router-link
       class="navigation__item"
       v-for="link in navList"
@@ -12,6 +17,8 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import createConfig, { _RouteConfig } from "../router/config";
+import { BLOG_META } from "@/utils/constants";
+
 let config = createConfig();
 @Component
 class Navigation extends Vue {
@@ -19,6 +26,7 @@ class Navigation extends Vue {
     ...config[k],
     name: k
   }));
+  public title = BLOG_META.name
 }
 export default Navigation;
 </script>
@@ -28,6 +36,15 @@ export default Navigation;
 #navigation {
   padding: 0 30px;
   line-height: 64px;
+
+  h1{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+  }
 
   a.navigation__item {
     margin: 0 8px;
@@ -52,5 +69,12 @@ export default Navigation;
       color: $text-highlight;
     }
   }
+
+  &.navigation__post{
+    a.navigation__item:not(.router-link-active){
+      color: white
+    }
+  }
 }
+
 </style>

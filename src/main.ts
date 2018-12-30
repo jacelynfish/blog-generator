@@ -1,19 +1,19 @@
 import Vue from 'vue';
 import App from './App.vue';
 import createRouter from './router/index';
-import createStore from './store';
+import createStore from './store/index';
 // import './registerServ/iceWorker';
-import { sync } from 'vuex-router-sync';
+import {sync} from 'vuex-router-sync';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
+import {library} from '@fortawesome/fontawesome-svg-core';
 import {
   faZhihu,
   faGithub,
   faWeibo,
   faCodepen
 } from '@fortawesome/free-brands-svg-icons';
-import { faHeart, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import {faHeart, faChevronUp} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 library.add(faGithub, faWeibo, faZhihu, faCodepen, faHeart, faChevronUp);
 
@@ -49,5 +49,5 @@ export default function createApp() {
     store,
     render: h => h(App)
   });
-  return { app, router, store };
+  return {app, router, store};
 }

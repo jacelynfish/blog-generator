@@ -8,10 +8,7 @@ $selection-bg: #F0C9CF; // 石蕊红
 $ins-gradient: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
 $headband-bg: $ins-gradient;
 
-
 $border-default: #e3e3e3;
-
-
 
 $background-default: #f6f8fa;
 
@@ -20,5 +17,15 @@ $background-default: #f6f8fa;
 
   &:last-child {
     margin-right: 0;
+  }
+}
+
+@mixin clearfix {
+  &::after{
+    content: '';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    overflow:hidden;
   }
 }

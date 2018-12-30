@@ -33,25 +33,34 @@ pushRouter.get('/pubkey', async ctx => {
 })
 
 pushRouter.post('/subscription', async ctx => {
-  const { uid, subscription } = ctx.request.body
-  await subDB.saveSubscription({uid, subscription})
+  const {
+    uid,
+    subscription
+  } = ctx.request.body
+  await subDB.saveSubscription({
+    uid,
+    subscription
+  })
   ctx.body = 'Successfully subscribe to push services!'
 })
 
 pushRouter.post('/push_mes', async ctx => {
-  const { uid, payload } = ctx.request.body
-  if(typeof uid == 'undefined') {
+  const {
+    uid,
+    payload
+  } = ctx.request.body
+  if (typeof uid == 'undefined') {
     ctx.status = 404
     ctx.body = "Please specify a uid"
-  }else {
+  } else {
     let subscriptions = await subDB.getSubscription(uid).catch(err => {
       console.log(err)
     })
-    for(let item of subscriptions) {
+    for (let item of subscriptions) {
       await webpush.sendNotification(item.subscription, JSON.stringify({
         title: 'Default Title',
         body: 'You have an unread message.',
-        tag: uid ? uid: 0,
+        tag: uid ? uid : 0,
         ...payload
       })).catch(err => {
         console.log(`WebPush Error: ${err.statusCode}`)
@@ -59,7 +68,7 @@ pushRouter.post('/push_mes', async ctx => {
     }
     ctx.body = 'Successfully push to clients'
   }
- 
+
 })
 
 

@@ -1,5 +1,7 @@
 import createApp from './main.ts'
-import { BLOG_META } from './utils/constants'
+import {
+  BLOG_META
+} from './utils/constants'
 
 const {
   app,
@@ -25,17 +27,22 @@ window.urlBase64ToUint8Array = (base64String) => {
 }
 
 async function subscribePush(reg) {
-  let {uid} = store.getters.pushInfo
+  let {
+    uid
+  } = store.getters['push/pushInfo']
 
   let subscription = await reg.pushManager.getSubscription()
-  if(!subscription){
+  if (!subscription) {
     subscription = await reg.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: window.urlBase64ToUint8Array(window.PUBKEY)
     })
   }
-  store.dispatch('SAVE_WEBPUSH_SUB', { subscription })
+  store.dispatch('push/SAVE_WEBPUSH_SUB', {
+    subscription
+  })
 }
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function (e) {
@@ -66,10 +73,10 @@ if ('serviceWorker' in navigator) {
 router.onReady(() => {
   router.beforeEach((to, from, next) => {
     let title;
-    if(to.meta.title) {
-      title = typeof to.meta.title == 'function' ? 
+    if (to.meta.title) {
+      title = typeof to.meta.title == 'function' ?
         to.meta.title(to) : to.meta.title
-    }else{
+    } else {
       title = BLOG_META.name
     }
     document.title = title

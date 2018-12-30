@@ -1,9 +1,17 @@
 <template>
   <div v-scroll="handleScroll">
-    <header class="post__title" :data-bg-url="post.meta.background_url">
+    <header class="post__title" :data-bg-url="post.background_url">
       <h1>
-        {{post.meta.title}}
-        <span class="post__title-date">{{displayDate(post.meta.date)}}</span>
+        {{post.title}}
+        <span class="post__title-date">
+          Published at {{displayDate(post.date)}} in
+          <ul class="post__title-categories">
+            <li v-for="(cat, idx) of post.categories" :key="idx">{{cat}}</li>
+          </ul>
+        </span>
+        <ul class="post__title-tags">
+          <li v-for="(tag, idx) of post.tags" :key="idx">{{tag}}</li>
+        </ul>
       </h1>
     </header>
     <main class="post" ref="postContent">
@@ -22,19 +30,20 @@ import "highlight.js/styles/zenburn.css";
 
 import { Component, Vue, Mixins } from "vue-property-decorator";
 import { AsyncData, PostData, PostMeta } from "../types/index";
-import { State } from "vuex-class";
+import { State, namespace } from "vuex-class";
 import ScrollToTop from "@/components/ScrollToTop.vue";
 import moment from "moment";
 import { BLOG_META } from "@/utils/constants";
+const post = namespace("post");
 
 @Component({
   components: {
     ScrollToTop
-  },
+  }
 })
 class PostContainer extends Vue {
   public static asyncData: AsyncData = ({ store, baseURL, route }) => {
-    return store.dispatch("GET_POST", {
+    return store.dispatch("post/GET_POST", {
       title: route.params.title,
       baseURL
     });
@@ -43,15 +52,15 @@ class PostContainer extends Vue {
   public isScrollStart: boolean = false;
   public isCancelled: boolean = false;
   public isScrollToTop: boolean = false;
-  @State public post!: PostData;
+  @State(state => state.post) public post!: PostData;
 
   mounted() {
-    let title = `${this.post.meta.title} | ${BLOG_META.name}`
-    if(document.title != title) document.title = title
+    let title = `${this.post.title} | ${BLOG_META.name}`;
+    if (document.title != title) document.title = title;
 
     let content: NodeSelector = this.$refs.postContent as NodeSelector;
     createCodeCopy(
-      { ...this.post.meta, permalink: `${location.href}` },
+      { ...this.post, permalink: `${location.href}` },
       content.querySelectorAll(".post-code__block")
     );
   }
@@ -111,7 +120,7 @@ const onCodeCopy = (e: Event, meta: PostMeta) => {
   );
 };
 
-function createCodeCopy(meta: PostMeta, codeBlocks: NodeList) {
+function createCodeCopy(meta: PostData, codeBlocks: NodeList) {
   let btn = (code: Node) => {
     let b = document.createElement("button");
     b.classList.add("post-code__copy-btn");
@@ -149,6 +158,37 @@ export default PostContainer;
     font-weight: normal;
     display: block;
     line-height: 2.5;
+  }
+  .post__title-categories,
+  .post__title-tags {
+    display: inline;
+    li {
+      display: inline-block;
+      margin-right: 6px;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+  .post__title-tags {
+    margin: 0px;
+    font-size: 14px;
+    line-height: 1.8;
+    font-weight: normal;
+    li {
+      cursor: pointer;
+      margin-right: 8px;
+      padding: 2px 8px;
+      border-radius: 32px;
+      border: 1px solid fade-out(white, 0.3);
+      transition: all 0.5s;
+
+      &:hover {
+        border-color: transparent;
+        background-color: white;
+        color: $post-title-color;
+      }
+    }
   }
 }
 .post-code__block {

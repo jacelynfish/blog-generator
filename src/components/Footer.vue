@@ -1,11 +1,6 @@
 <template>
   <footer id="footer">
-    <ul class="footer__friends">
-      <span>FRIENDS:</span>
-      <li v-for="(friend, name) in friendList" :key="name">
-        <a :href="friend.url" rel="noopener noreferrer" target="_blank">{{friend.title}}</a>
-      </li>
-    </ul>
+    
     <social-link></social-link>
     <p class="footer__power">Powered with
       <font-awesome-icon icon="heart"></font-awesome-icon>
@@ -38,14 +33,14 @@ export default Footer;
   font-size: 14px;
   margin: 64px 0 32px;
   text-align: center;
-  .footer__friends {
-    padding: 0 10%;
-    text-align: left;
-    li {
-      display: inline-block;
-      @include list-margin(8px);
-    }
-  }
+  // .footer__friends {
+  //   padding: 0 10%;
+  //   text-align: left;
+  //   li {
+  //     display: inline-block;
+  //     @include list-margin(8px);
+  //   }
+  // }
   .footer__power {
     line-height: 2;
     a {

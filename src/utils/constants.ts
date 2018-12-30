@@ -30,20 +30,24 @@ export const SOCIAL_LINKS: ObjectType<SocialItem> = {
 export interface FriendItem {
   title: string;
   url: string;
+  avatar?: string;
   desc?: string;
 }
 
 export const FRIEND_LIST: ObjectType<FriendItem> = {
   r00t4dm: {
     title: '秋风',
-    url: 'https://www.knowsec.net/'
+    url: 'https://www.knowsec.net/',
+    desc: 'Web安全 主攻Java/渗透'
   },
   lllapland: {
     title: 'Reflection',
-    url: 'https://lllapland.github.io/'
+    url: 'https://lllapland.github.io/',
+    desc: '可爱的沫沫学神(˶‾᷄ ⁻̫ ‾᷅˵) USC在读'
   },
   umi: {
     title: '雾之湖',
-    url: 'https://umi.cat/'
+    url: 'https://umi.cat/',
+    desc: 'Umi哥哥 区块链/Web安全/算法/机器学习相关'
   }
 };

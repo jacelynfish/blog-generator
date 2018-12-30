@@ -8,6 +8,8 @@ const Post = require('../../db/Post')
 
 const postDB = new Post()
 
+const END_TOKEN = '@_end@'
+const absPat = /<.*?(?:>|(@_end@$))|(\n)|(@_end@)/gi
 const md = require('markdown-it')({
   html: true,
   highlight: function (str, lang) {
@@ -47,15 +49,34 @@ module.exports = async function transform(id, source, target) {
   let content = md.render(article);
 
   let abs = content.split(/<!--\s*(more)\s*-->/)[0]
-  abs = abs.length > 500 ? abs.slice(0, 500)+ '……' : abs
+  abs = abs.length > 500 ? abs.slice(0, 500) + END_TOKEN : abs
 
   let metaData = {
     ...md.meta,
     date: moment(md.meta.date ? md.meta.date : new Date()).valueOf(),
-    abstract: abs
+    abstract: abs.replace(absPat, (match, p1) => {
+      let type = ''
+      switch (match) {
+        case END_TOKEN:
+          type = '……';
+          break;
+        case '\n':
+          type = ' ';
+          break;
+        default:
+          type = p1 ? '……' : ''
+          break;
+          1
+      }
+      return type
+    }).trim()
   };
 
-  await postDB.savePost({id, meta: metaData, content})
+  await postDB.savePost({
+    id,
+    meta: metaData,
+    content
+  })
 
   return metaData;
 };

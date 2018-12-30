@@ -2,7 +2,11 @@ const Router = require('koa-router')
 const fs = require('fs')
 const fsPromises = fs.promises
 const path = require('path')
+const PostDB = require('../db/Post')
 let postRouter = new Router()
+let postDB = new PostDB()
+
+const TOC_LIMIT = 10
 
 postRouter.use(async (ctx, next) => {
   if (ctx.hostname == 'localhost') {
@@ -15,20 +19,36 @@ postRouter.use(async (ctx, next) => {
 })
 
 postRouter.get('toc', '/toc', async ctx => {
-  let res = await fsPromises.readFile(
-    path.resolve(__dirname, '../post', `_toc.json`),
-    'utf-8')
-  ctx.body = res
+  let {
+    page
+  } = ctx.query
+
+  let skip = typeof page != 'undefined' && page >= 1 ? (page - 1) * TOC_LIMIT : -1
+  let limit = skip >= 0 ? TOC_LIMIT : 0
+  let toc = await postDB.getTOC({
+    skip,
+    limit
+  })
+  let total = await postDB.getTotalCount()
+  ctx.body = {
+    data: toc,
+    total,
+    page: +page,
+    limit
+  }
 })
 
 postRouter.get('posts', '/detail/:title', async (ctx) => {
   let {
     title
   } = ctx.params
-  let res = await fsPromises.readFile(
-    path.resolve(__dirname, '../post', `${title}.json`),
-    'utf-8')
-  ctx.body = res
+  let post = await postDB.getPost(title)
+  if (post) {
+    ctx.body = post
+  } else {
+    ctx.status = 404
+    ctx.body = '文章不存在'
+  }
 })
 
 module.exports = postRouter

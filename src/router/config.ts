@@ -19,6 +19,11 @@ const createConfig: () => Config = () => {
       path: '/archive',
       title: '归档'
     },
+    about: {
+      inNav: true,
+      path: '/about',
+      title: '关于'
+    },
     post: {
       path: '/post/:title',
       title: '文章'

@@ -2,12 +2,14 @@
   <main class="archive">
     <ul class="archive__list">
       <li
-        v-for="(tag) in toc._list"
-        :key="tag"
-        :class="[toc.posts[tag].dateDesc ? 'archive__list-item-has-desc' : '']"
-        :data-date-desc="toc.posts[tag].dateDesc"
+        v-for="item in toc"
+        :key="item.pid"
+        :class="[item.dateDesc ? 'archive__list-item-has-desc' : '']"
+        :data-date-desc="item.dateDesc"
       >
-        <router-link :to="{name: 'post', params: {title: tag, name: toc.posts[tag].title }}">{{toc.posts[tag].title}}</router-link>
+        <router-link
+          :to="{name: 'post', params: {title: item.pid, name: item.title }}"
+        >{{item.title}}</router-link>
       </li>
     </ul>
   </main>
@@ -28,7 +30,7 @@ class Archive extends Vue {
   public static asyncData: AsyncData = getTOC;
 
   mounted() {
-    if (!this.toc._list.length)
+    if (!this.toc.length)
       getTOC({
         store: this.$store,
         route: this.$route,

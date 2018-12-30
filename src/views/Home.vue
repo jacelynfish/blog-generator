@@ -1,13 +1,13 @@
 <template>
   <main class="home">
-    <section class="toc__post-item" v-for="post in toc._list" :key="post">
+    <section class="toc__post-item" v-for="post in toc" :key="post.pid">
       <h3>
-        <router-link :to="{name: 'post', params: {title: post}}">{{toc.posts[post].title}}</router-link>
+        <router-link :to="{name: 'post', params: {title: post.pid}}">{{post.title}}</router-link>
       </h3>
-      <!-- <p class="toc__post-abstract" v-html="toc.posts[post].abstract"></p> -->
-      <span class="toc__post-date">{{toc.posts[post].date}}</span>
+      <p class="toc__post-abstract" v-html="post.abstract"></p>
+      <span class="toc__post-date">{{post.date}}</span>
       <ul class="toc__post-tag">
-        <li v-for="tag in toc.posts[post].tags" :key="tag">{{tag}}</li>
+        <li v-for="tag in post.tags" :key="tag">{{tag}}</li>
       </ul>
     </section>
   </main>
