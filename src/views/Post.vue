@@ -15,8 +15,10 @@
       </h1>
     </header>
     <main class="post" ref="postContent">
+      <post-toc :toc="this.post.toc"></post-toc>
       <article class="post__content" v-html="post.content"></article>
     </main>
+
     <scroll-to-top
       :is-cancelled="isCancelled"
       :is-show="isScrollToTop"
@@ -31,14 +33,18 @@ import "highlight.js/styles/zenburn.css";
 import { Component, Vue, Mixins } from "vue-property-decorator";
 import { AsyncData, PostData, PostMeta } from "../types/index";
 import { State, namespace } from "vuex-class";
+
 import ScrollToTop from "@/components/ScrollToTop.vue";
+import PostToc from "@/components/PostToc.vue";
+
 import moment from "moment";
 import { BLOG_META } from "@/utils/constants";
 const post = namespace("post");
 
 @Component({
   components: {
-    ScrollToTop
+    ScrollToTop,
+    PostToc
   }
 })
 class PostContainer extends Vue {
@@ -142,6 +148,12 @@ export default PostContainer;
 <style lang="scss">
 @import "@/style/post.scss";
 
+.post {
+  @media (min-width: 960px) {
+    width: 60%;
+    margin-left: 30%;
+  }
+}
 .post__title {
   text-align: center;
   padding: 12em 8%;
@@ -190,6 +202,9 @@ export default PostContainer;
       }
     }
   }
+}
+.post__content-anchor {
+  margin-right: 8px;
 }
 .post-code__block {
   position: relative;

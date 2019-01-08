@@ -7,16 +7,27 @@
     <details open>
       <summary>Friends</summary>
       <ul class="about__friends">
-        <li v-for="(friend, name) in friendList" :key="name" >
-          <a :href="friend.url" rel="noopener noreferrer" 
-              target="_blank" 
-              @mouseenter="handleRippleStart($event, name)"
-              @mouseleave="ripple.current = `_${ripple.current}`" >
-            <img :src="`https://resource.jacelyn.fish/blog/about/avatar/${name}.jpg`" :alt="name" class="about__friends-avatar">
+        <li v-for="(friend, name) in friendList" :key="name">
+          <a
+            :href="friend.url"
+            rel="noopener noreferrer"
+            target="_blank"
+            @mouseenter="handleRippleStart($event, name)"
+            @mouseleave="ripple.current = `_${ripple.current}`"
+          >
+            <img
+              :src="`https://resource.jacelyn.fish/blog/about/avatar/${name}.jpg`"
+              :alt="name"
+              class="about__friends-avatar"
+            >
             <p class="about__friends-title">{{friend.title}}</p>
             <span class="about__friends-desc" v-if="friend.desc">{{friend.desc}}</span>
           </a>
-          <span class="ripple" v-if="name == ripple.current" :style="{left: `${ripple.x}px`, top: `${ripple.y}px`}"></span>
+          <span
+            class="ripple"
+            v-if="name == ripple.current"
+            :style="{left: `${ripple.x}px`, top: `${ripple.y}px`}"
+          ></span>
         </li>
       </ul>
     </details>
@@ -33,20 +44,18 @@ import { FRIEND_LIST } from "@/utils/constants";
 class About extends Vue {
   public readonly friendList = FRIEND_LIST;
   public ripple = {
-    current: '',
+    current: "",
     x: -1000,
     y: -1000
-  }
-  private rippleTimer = null
+  };
+  private rippleTimer = null;
 
-  public handleRippleStart(e: MouseEvent, name:string) {
+  public handleRippleStart(e: MouseEvent, name: string) {
     this.ripple = {
-      current:name,
+      current: name,
       x: e.offsetX,
       y: e.offsetY
-    }
-
-    console.log(e.offsetX, e.offsetY)
+    };
   }
 }
 
@@ -58,48 +67,46 @@ export default About;
 @keyframes ripple-show {
   0% {
     transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-
+    opacity: 0;
   }
   50% {
     transform: translate(-50%, -50%) scale(1);
-      opacity: 0.3  ;
-
+    opacity: 0.3;
   }
   100% {
-    transform:  translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%) scale(2);
     opacity: 0;
   }
 }
-.ripple{
+.ripple {
   position: absolute;
   padding: 50%;
   background-color: $sidebar-highlight;
   opacity: 0;
   transform: translate(-50%, -50%);
-  border-radius:100%;
+  border-radius: 100%;
   pointer-events: none;
   animation: ripple-show 0.5s linear;
 }
-.about{
-  details{
-    ::-webkit-details-marker{
+.about {
+  details {
+    ::-webkit-details-marker {
       display: none;
     }
-    ::-moz-list-bullet{
+    ::-moz-list-bullet {
       font-size: 0;
     }
-    &[open] summary{
+    &[open] summary {
       color: $text-highlight;
     }
 
     margin: 8em 0;
-    &:first-child{
+    &:first-child {
       margin: 0;
     }
   }
 
-  summary{
+  summary {
     text-transform: uppercase;
     outline: 0;
     text-align: center;
@@ -108,9 +115,9 @@ export default About;
     cursor: pointer;
   }
 
-  .about__friends{
-    li{
-      overflow:hidden;
+  .about__friends {
+    li {
+      overflow: hidden;
       position: relative;
       display: inline-block;
       width: 48%;
@@ -119,27 +126,31 @@ export default About;
       padding-right: 12px;
       box-shadow: 0px 8px 20px transparentize($dark-background, 0.8);
 
-      a{
-        display:block;
+      @media (max-width: 640px) {
+        width: 100%;
+      }
+
+      a {
+        display: block;
         @include clearfix;
       }
-      &:nth-child(odd){
+      &:nth-child(odd) {
         margin-right: 4%;
       }
     }
   }
-  .about__friends-title{
+  .about__friends-title {
     font-weight: bolder;
     margin: 0;
     padding-top: 1em;
   }
-  .about__friends-avatar{
+  .about__friends-avatar {
     width: 120px;
     height: 120px;
-    float:left;
+    float: left;
     margin-right: 12px;
   }
-  .about__friends-desc{
+  .about__friends-desc {
     font-size: 12px;
     color: $text-default;
   }

@@ -10,10 +10,19 @@ export type AsyncData = (
   }
 ) => Promise<any>;
 
+export type PostTOC = {
+  [propName: string]: {
+    content: string;
+    level: number;
+    children: PostTOC;
+  };
+};
+
 export interface PostMeta {
   title: string;
   date: string;
   pid: string | number;
+  toc: PostTOC[];
   tags?: string[];
   categories?: string[];
   permalink?: string;
