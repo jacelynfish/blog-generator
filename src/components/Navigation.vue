@@ -19,7 +19,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import createConfig, { _RouteConfig } from "../router/config";
 import { BLOG_META } from "@/utils/constants";
 
-let config = createConfig();
+const config = createConfig();
 @Component
 class Navigation extends Vue {
   public navList: _RouteConfig[] = Object.keys(config).map(k => ({

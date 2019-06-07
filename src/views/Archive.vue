@@ -20,7 +20,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { AsyncData, TOC } from "../types/index";
 import { State } from "vuex-class";
 
-let getTOC: AsyncData = ({ store, baseURL }) => {
+const getTOC: AsyncData = ({ store, baseURL }) => {
   return store.dispatch("GET_TOC", {
     baseURL
   });
@@ -29,17 +29,18 @@ let getTOC: AsyncData = ({ store, baseURL }) => {
 class Archive extends Vue {
   public static asyncData: AsyncData = getTOC;
 
-  mounted() {
-    if (!this.toc.length)
+  @State("toc")
+  public toc!: TOC;
+
+  public mounted() {
+    if (!this.toc.length) {
       getTOC({
         store: this.$store,
         route: this.$route,
         baseURL: location.origin
       });
+    }
   }
-
-  @State("toc")
-  public toc!: TOC;
 }
 
 export default Archive;

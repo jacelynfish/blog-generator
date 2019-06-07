@@ -12,7 +12,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "0.19.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "highlight.js": "^9.13.1",
     "jsdom": "^13.0.0",
@@ -27,7 +27,7 @@
     "moment": "^2.22.2",
     "nedb": "^1.8.0",
     "register-service-worker": "^1.0.0",
-    "vue": "^2.5",
+    "vue": "2.6.10",
     "vue-class-component": "^6",
     "vue-property-decorator": "^7",
     "vue-router": "^3",
@@ -64,7 +64,7 @@
     "ora": "^3.0.0",
     "sass-loader": "^7.0.1",
     "typescript": "^3.0.0",
-    "vue-server-renderer": "^2.5",
+    "vue-server-renderer": "2.6.10",
     "vue-template-compiler": "^2.5.17",
     "webpack-merge": "^4.1.4",
     "webpack-node-externals": "^1.7.2"

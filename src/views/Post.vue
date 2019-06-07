@@ -60,11 +60,11 @@ class PostContainer extends Vue {
   public isScrollToTop: boolean = false;
   @State(state => state.post) public post!: PostData;
 
-  mounted() {
-    let title = `${this.post.title} | ${BLOG_META.name}`;
-    if (document.title != title) document.title = title;
+  public mounted() {
+    const title = `${this.post.title} | ${BLOG_META.name}`;
+    if (document.title != title) { document.title = title; }
 
-    let content: NodeSelector = this.$refs.postContent as NodeSelector;
+    const content: Element = this.$refs.postContent as Element
     createCodeCopy(
       { ...this.post, permalink: `${location.href}` },
       content.querySelectorAll(".post-code__block")
@@ -81,7 +81,7 @@ class PostContainer extends Vue {
   }
 
   public getIsScrollTop() {
-    let isShow = window.scrollY > window.innerHeight * 1.5;
+    const isShow = window.scrollY > window.innerHeight * 1.5;
     if (isShow != this.isScrollToTop) {
       this.isScrollToTop = isShow;
     }
@@ -101,11 +101,11 @@ class PostContainer extends Vue {
 const onCopyClick = (e: Event, code: Node) => {
   window.getSelection().removeAllRanges();
 
-  let range = document.createRange();
+  const range = document.createRange();
   range.selectNodeContents(code);
 
   window.getSelection().addRange(range);
-  let res = document.execCommand("copy");
+  const res = document.execCommand("copy");
   if (res) {
     console.log("复制成功");
   }
@@ -114,8 +114,8 @@ const onCopyClick = (e: Event, code: Node) => {
 
 const onCodeCopy = (e: Event, meta: PostMeta) => {
   e.preventDefault();
-  let clipboardData = (e as ClipboardEvent).clipboardData;
-  let text = window.getSelection().toString();
+  const clipboardData = (e as ClipboardEvent).clipboardData;
+  const text = window.getSelection().toString();
   clipboardData.setData(
     "text/plain",
     text +
@@ -127,15 +127,15 @@ const onCodeCopy = (e: Event, meta: PostMeta) => {
 };
 
 function createCodeCopy(meta: PostData, codeBlocks: NodeList) {
-  let btn = (code: Node) => {
-    let b = document.createElement("button");
+  const btn = (code: Node) => {
+    const b = document.createElement("button");
     b.classList.add("post-code__copy-btn");
     b.addEventListener("click", (e: Event) => onCopyClick(e, code));
     return b;
   };
   if (document.queryCommandSupported("copy")) {
     codeBlocks.forEach((block, idx) => {
-      let code = block.firstChild!;
+      const code = block.firstChild!;
       code.addEventListener("copy", (e: Event) => onCodeCopy(e, meta));
       block.appendChild(btn(code));
     });

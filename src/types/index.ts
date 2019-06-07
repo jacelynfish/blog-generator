@@ -10,13 +10,13 @@ export type AsyncData = (
   }
 ) => Promise<any>;
 
-export type PostTOC = {
+export interface PostTOC {
   [propName: string]: {
     content: string;
     level: number;
     children: PostTOC;
   };
-};
+}
 
 export interface PostMeta {
   title: string;

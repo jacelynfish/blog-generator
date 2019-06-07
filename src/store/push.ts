@@ -19,10 +19,10 @@ export default {
   },
   actions: {
     SAVE_WEBPUSH_SUB({state, commit}, {subscription}) {
-      let uid = state.pushInfo.uid.length
+      const uid = state.pushInfo.uid.length
         ? state.pushInfo.uid
         : `${new Date().valueOf()}`;
-      let data = {
+      const data = {
         subscription,
         uid
       };

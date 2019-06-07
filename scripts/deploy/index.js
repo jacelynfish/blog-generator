@@ -38,8 +38,8 @@ async function run() {
       console.log(chalk.green(`成功部署 ${ids.join(', ')}！`))
     }).catch(err => console.log(chalk.red(`部署${ids}错误：${err}`)));
 
-  // await execP(`gulp --cwd ${process.cwd()} -f ${path.resolve(__dirname, 'gulpfile.js')} ${ids.map(id => `--posts ${id}`).join(' ')}`, {
-  //     cwd: process.cwd()
-  //   }).then(res => console.log(chalk.green(`成功运行 Gulp 任务`)))
-  //   .catch(err => console.log(chalk.red(err)))
+  await execP(`gulp --cwd ${process.cwd()} -f ${path.resolve(__dirname, 'gulpfile.js')} ${ids.map(id => `--posts ${id}`).join(' ')}`, {
+      cwd: process.cwd()
+    }).then(res => console.log(chalk.green(`成功运行 Gulp 任务`)))
+    .catch(err => console.log(chalk.red(err)))
 }

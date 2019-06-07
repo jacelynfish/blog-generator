@@ -8,12 +8,12 @@ export interface _RouteConfig {
 }
 // | typeof Vue | (() => Promise<any>)
 
-export type Config = {
+export interface Config {
   [propName: string]: _RouteConfig;
-};
+}
 
 const createConfig: () => Config = () => {
-  let config: Config = {
+  const config: Config = {
     archive: {
       inNav: true,
       path: '/archive',

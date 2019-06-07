@@ -18,7 +18,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { AsyncData, TOC } from "../types/index";
 import { State } from "vuex-class";
 
-let getTOC: AsyncData = ({ store, baseURL }) => {
+const getTOC: AsyncData = ({ store, baseURL }) => {
   return store.dispatch("GET_TOC", {
     baseURL
   });

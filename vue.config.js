@@ -46,7 +46,7 @@ module.exports = {
         whitelist: [/\.css$/]
       }) : undefined,
     optimization: {
-      splitChunks: undefined
+      splitChunks: TARGET_NODE ? false:undefined
     },
     plugins: [TARGET_NODE ? new VueSSRServerPlugin() : new VueSSRClientPlugin()]
   }),

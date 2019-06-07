@@ -7,10 +7,11 @@ import { BLOG_META } from '../utils/constants'
 
 import Offline from '../views/Offline.vue'
 
-const Home = () => import('../views/Home.vue')
-const Archive = () => import('../views/Archive.vue')
-const Post = () => import('../views/Post.vue');
-const About = () => import('../views/About.vue');
+import Home from '../views/Home.vue'
+import Archive from '../views/Archive.vue'
+import Post from '../views/Post.vue'
+import About from '../views/About.vue'
+
 
 Vue.use(Router);
 

@@ -40,11 +40,11 @@ export default function createApp() {
       window && window.removeEventListener('wheel', scrollCB);
     }
   });
-  let router = createRouter();
-  let store = createStore();
+  const router = createRouter();
+  const store = createStore();
 
   sync(store, router);
-  let app = new Vue({
+  const app = new Vue({
     router,
     store,
     render: h => h(App)

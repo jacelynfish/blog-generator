@@ -19,7 +19,7 @@ class Scroll extends Vue {
   @Prop({ default: false }) public isShow!: boolean;
   @Prop({ default: false }) public isCancelled!: boolean;
   public scrollToTop() {
-    let top = window.scrollY;
+    const top = window.scrollY;
 
     if (top > 1) {
       requestAnimationFrame(() => {

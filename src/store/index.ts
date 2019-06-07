@@ -22,8 +22,8 @@ export default function createStore() {
     mutations: {
       SET_TOC(state, {toc}) {
         for (let i = 0; i < toc.length; i++) {
-          let post = toc[i];
-          let date = moment(post.date).format('MMMM');
+          const post = toc[i];
+          const date = moment(post.date).format('MMMM');
 
           post.dateDesc =
             i == 0 || date != moment(toc[i - 1].date).format('MMMM')
