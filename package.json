@@ -54,7 +54,7 @@
     "gulp": "^4.0.0",
     "gulp-imagemin": "^5.0.3",
     "inquirer": "^6.2.0",
-    "lodash.merge": "^4.6.1",
+    "lodash.merge": "^4.6.2",
     "markdown-it-attrs": "^2.3.2",
     "markdown-it-toc-and-anchor": "^4.2.0",
     "metalsmith": "^2.3.0",
