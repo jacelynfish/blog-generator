@@ -58,7 +58,7 @@
     "markdown-it-attrs": "^2.3.2",
     "markdown-it-toc-and-anchor": "^4.2.0",
     "metalsmith": "^2.3.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.0",
     "ora": "^3.0.0",
